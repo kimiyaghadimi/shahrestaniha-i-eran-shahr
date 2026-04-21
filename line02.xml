@@ -1,0 +1,96 @@
+<ab xml:id="line02" type="line">
+    <seg xml:id="line02w01" type="unit">
+        <orig>ﺻﺖرععرصا ﺟ</orig>
+        <transcrip>Šahrestānīhā  ī</transcrip><gloss>The cities</gloss>
+    </seg>
+    <seg xml:id="line02w03" type="unit">
+        <orig>󰀀</orig>
+        <transcrip>andar</transcrip><gloss>in</gloss>
+    </seg>
+    <seg xml:id="line02w04" type="unit">
+        <orig>ﲻﻋﮑر </orig>
+        <transcrip>zamīg</transcrip><gloss>the land</gloss>
+    </seg>
+    <seg xml:id="line02w05" type="unit">
+        <orig>ﺟ</orig>
+        <transcrip>ī</transcrip><gloss>of</gloss>
+    </seg>
+    <seg xml:id="line02w06" type="unit">
+        <orig>ععﺠلاﺮر ﺻﺖرر</orig>
+        <transcrip>Ērān šahr</transcrip><gloss>Ērān-šahr</gloss>
+    </seg>
+    <seg xml:id="line02w08" type="unit">
+        <orig>کرت</orig>
+        <transcrip>kerd</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w09" type="unit">
+        <orig>ﻋﮑرﲻررﺟﺘ</orig>
+        <transcrip>estēd</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w10" type="unit">
+        <orig>عرﺟﺘ</orig>
+        <transcrip>ǰud</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w11" type="unit">
+        <orig>عرﺟﺘ</orig>
+        <transcrip>ǰud</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w12" type="unit">
+        <orig>برم</orig>
+        <transcrip>būm</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w13" type="unit">
+        <orig>ععﻜ</orig>
+        <transcrip>kū</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w14" type="unit">
+        <orig>کتام</orig>
+        <transcrip>kadām</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w15" type="unit">
+        <orig>ثلاﺮتعع</orig>
+        <transcrip>sar-xwadāy</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w16" type="unit">
+        <orig>کرت</orig>
+        <transcrip>kerd</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w17" type="unit">
+        <orig>پرر</orig>
+        <transcrip>pad</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w18" type="unit">
+        <orig>عرکععر</orig>
+        <transcrip>gōkān</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w19" type="unit">
+        <orig>ﳑ</orig>
+        <transcrip>abar</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w20" type="unit">
+        <orig>عرمر</orig>
+        <transcrip>ēn</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w21" type="unit">
+        <orig>ععسباتکععل</orig>
+        <transcrip>ayādgār</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w22" type="unit">
+        <orig>رپصت</orig>
+        <transcrip>nibišt</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w23" type="unit">
+        <orig>ﻋﮑرﲻررﺟﺘ</orig>
+        <transcrip>estēd</transcrip><gloss></gloss>
+    </seg>
+    <seg xml:id="line02w24" type="unit">
+        <orig>󰴃</orig>
+        <trasnscrip>.</trasnscrip>
+    </seg>
+    <cit type="transcription">
+        <quote>Šahrestānīhā ī andar zamīg ī Ērān šahr kerd estēd ǰud ǰud būm kū kadām sar-xwadāy kerd pad gōkān abar ēn ayādgār nibišt estēd.</quote>
+    </cit>
+    <cit type="translation">
+        <quote>The cities in the land of Ērān-šahr which have been built in different days, where and which overlord made them is written in detail in this memoir.</quote>
+    </cit>
+</ab>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Text — Šahrestānīhā ī Ērānšahr</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="textstyle.css"/>
+  <link rel="stylesheet" href="texts-static.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul class="nav-links-left">
+      <li><a href="texts-static.html" class="active">Text</a></li>
+      <li><a href="analysis.html">Analysis</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="map.html">Map</a></li>
+    </ul>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="text-main">
+
+    <div class="text-header">
+      <h1>Šahrestānīhā ī Ērānšahr</h1>
+      <p class="text-subtitle">Parallel Text</p>
+
+      <!-- level 1 toggle: Static / Interactive -->
+      <div class="view-toggle-row">
+        <div class="view-toggle-group" role="group" aria-label="Text mode">
+          <button class="toggle-btn toggle-btn--primary active" id="btn-static">Static</button>
+          <button class="toggle-btn toggle-btn--primary" id="btn-interactive" onclick="window.location='texts-interactive.html'">Interactive</button>
+        </div>
+
+        <!-- level 2 toggle: Plain / Highlighted (sub-buttons inside Static) -->
+        <div class="view-toggle-group view-toggle-sub" id="sub-toggle" role="group" aria-label="Display mode">
+          <button class="toggle-btn toggle-btn--sub active" id="btn-plain" onclick="setView('plain')">Plain</button>
+          <button class="toggle-btn toggle-btn--sub" id="btn-highlighted" onclick="setView('highlighted')">Highlighted</button>
+        </div>
+      </div>
+
+      <!-- legend for highlighted view -->
+      <div class="hl-legend" id="hl-legend" style="display:none">
+        <span class="hl-person legend-swatch">person / king / khan</span>
+        <span class="hl-city legend-swatch">city / region</span>
+        <span class="hl-building legend-swatch">building / structure</span>
+        <span class="hl-geo legend-swatch">geography</span>
+        <span class="hl-date legend-swatch">date</span>
+        <span class="hl-role legend-swatch">title / role</span>
+        <span class="hl-interp legend-swatch">interp (underlined)</span>
+        <span class="hl-pejorative legend-swatch">pejorative</span>
+        <span class="hl-praise legend-swatch">praise epithet</span>
+      </div>
+    </div>
+
+    <!-- column headers -->
+    <div class="text-cols-header">
+      <div class="text-linenum-header">#</div>
+      <div class="text-col-label">Pahlavi Transliteration</div>
+      <div class="text-col-label">English Translation</div>
+    </div>
+
+    <div id="text-loading" class="text-loading">Loading text…</div>
+    <div id="text-container" class="text-container" style="display:none"></div>
+
+  </main>
+
+  <script>
+  const XML_PATH       = 'sahrestaniha_i_eran_sahr_multilingual.xml';
+  const XSLT_PLAIN     = 'texts-plain.xslt';
+  const XSLT_HIGHLIGHT = 'texts-highlighted.xslt';
+
+  let currentView = 'plain';
+  let plainFrag   = null;
+  let hlFrag      = null;
+
+  async function fetchAndTransform(xsltPath) {
+    const [xmlText, xsltText] = await Promise.all([
+      fetch(XML_PATH).then(r => { if (!r.ok) throw new Error('XML ' + r.status); return r.text(); }),
+      fetch(xsltPath).then(r => { if (!r.ok) throw new Error('XSLT ' + r.status); return r.text(); }),
+    ]);
+    const parser  = new DOMParser();
+    const xmlDoc  = parser.parseFromString(xmlText,  'application/xml');
+    const xsltDoc = parser.parseFromString(xsltText, 'application/xml');
+    if (xmlDoc.querySelector('parsererror'))  throw new Error('XML parse error');
+    if (xsltDoc.querySelector('parsererror')) throw new Error('XSLT parse error');
+    const proc = new XSLTProcessor();
+    proc.importStylesheet(xsltDoc);
+    return proc.transformToFragment(xmlDoc, document);
+  }
+
+  async function init() {
+    const loading   = document.getElementById('text-loading');
+    const container = document.getElementById('text-container');
+    try {
+      plainFrag = await fetchAndTransform(XSLT_PLAIN);
+      container.appendChild(plainFrag.cloneNode(true));
+      loading.style.display   = 'none';
+      container.style.display = '';
+      // preload highlighted in background
+      fetchAndTransform(XSLT_HIGHLIGHT).then(f => { hlFrag = f; }).catch(() => {});
+    } catch(e) {
+      loading.textContent = 'Error: ' + e.message + ' — run: python3 -m http.server 8000';
+      loading.style.color = '#904040';
+    }
+  }
+
+  function setView(view) {
+    if (view === currentView) return;
+    currentView = view;
+    const container = document.getElementById('text-container');
+    const legend    = document.getElementById('hl-legend');
+    document.getElementById('btn-plain').classList.toggle('active', view === 'plain');
+    document.getElementById('btn-highlighted').classList.toggle('active', view === 'highlighted');
+    legend.style.display = view === 'highlighted' ? 'flex' : 'none';
+    container.innerHTML  = '';
+
+    if (view === 'plain') {
+      if (plainFrag) container.appendChild(plainFrag.cloneNode(true));
+    } else {
+      if (hlFrag) {
+        container.appendChild(hlFrag.cloneNode(true));
+      } else {
+        container.textContent = 'Loading…';
+        fetchAndTransform(XSLT_HIGHLIGHT).then(f => {
+          hlFrag = f;
+          if (currentView === 'highlighted') {
+            container.innerHTML = '';
+            container.appendChild(hlFrag.cloneNode(true));
+          }
+        });
+      }
+    }
+  }
+
+  init();
+  </script>
+
+</body>
+</html>

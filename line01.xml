@@ -1,0 +1,48 @@
+<ab xml:id="line01" type="line" dir="rtl">
+    <seg xml:id="line01w01" type="unit">
+        <orig> پرر   صم   ﺟ</orig>
+        <transcrip> Pad nām</transcrip><gloss>In the name</gloss>
+    </seg>
+    <seg xml:id="line01w02" type="unit">
+        <orig>ر</orig>
+        <transcrip>ud</transcrip><gloss>and</gloss>
+    </seg>
+    <seg xml:id="line01w03" type="unit">
+        <orig>رجلرک</orig>
+        <transcrip>nērōg</transcrip><gloss>power</gloss>
+    </seg>
+    <seg xml:id="line01w04" type="unit">
+        <orig>ر</orig>
+        <transcrip>ud</transcrip><gloss>and</gloss>
+    </seg>
+    <seg xml:id="line01w05" type="unit">
+        <orig>ععسبععلسع</orig>
+        <transcrip>ayārīh</transcrip><gloss>righteousness</gloss>
+    </seg>
+    <seg xml:id="line01w06" type="unit">
+        <orig>ﺟ</orig>
+        <transcrip>ī</transcrip><gloss>of</gloss>
+    </seg>
+    <seg xml:id="line01w07" type="unit">
+        <orig>ﺷﺘععل</orig>
+        <transcrip>dādār</transcrip><gloss>the Creator</gloss>
+    </seg>
+    <seg xml:id="line01w08" type="unit">
+        <orig>ععرععرما</orig>
+        <transcrip>Ohrmazd</transcrip><gloss>Ohrmazd</gloss>
+    </seg>
+    <seg xml:id="line01w09" type="unit">
+        <orig>ﺟﺘک ﺟ رعرک</orig>
+        <transcrip>ǰadag ī nēk</transcrip><gloss>and good omen</gloss>
+    </seg>
+    <seg xml:id="line01w10" type="unit">
+        <orig>󰴃</orig>
+        <transcrip>.</transcrip><gloss></gloss>
+    </seg>
+    <cit type="transcription">
+        <quote>Pad nām ud nērōg ud ayārīh ī dādār Ohrmazd ǰadag ī nēk.</quote>
+    </cit>
+    <cit type="translation">
+        <quote>In the name and power and righteousness of the Creator Ohrmazd and good omen.</quote>
+    </cit>
+</ab>

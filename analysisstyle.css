@@ -1,0 +1,298 @@
+@font-face {
+    font-family: "lora";
+    src: url("Lora-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #000000;
+    color: white;
+    font-family: "lora", serif;
+}
+
+.navbar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #000000;
+}
+
+.nav-links, .nav-links-left {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a, .nav-links-left a {
+    color: white;
+    text-decoration: none;
+    font-family: "lora", serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.80;
+    transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links-left a:hover { opacity: 1; }
+
+.navbar::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 1cm; right: 1cm;
+    height: 0.5px;
+    background-color: #888888;
+}
+
+.nav-links-left a.active { opacity: 1; }
+
+.content {
+   /* max-width: 720px;
+    margin: 0 auto;
+    padding: 140px 40px 100px 40px;*/
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 130px 40px 40px 40px;
+}
+
+
+
+h1 {
+    font-family: "lora", serif;
+    font-weight: 400;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    letter-spacing: 0.02em;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 1.5em;
+    color: #e8dcc8;
+}
+
+
+/*table design beloiw*/
+
+/*sideline color*/
+:root {
+    --ne: #b8922a;
+    --sw: #c02641;
+    --se: #4a8a4a;
+    --nw: #7a4a9a;
+}
+
+.table-section {
+    padding: 0 40px 120px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.table-loading {
+    color: #666;
+    font-family: "lora", serif;
+    font-size: 0.85rem;
+    padding: 2rem 0;
+}
+
+.table-wrap { overflow-x: auto; }
+
+.analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.analysis-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.analysis-table th {
+    background: #0d0d0d;
+    border-bottom: 0.5px solid #444;
+    color: #666;
+    font-family: "lora", serif;
+    font-weight: 400;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    padding: 0.7rem 1rem;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+    user-select: none;
+    cursor: pointer;
+}
+.analysis-table th:hover { color: #aaa; }
+.analysis-table th[data-sort="asc"]::after  { content: ' ↑'; }
+.analysis-table th[data-sort="desc"]::after { content: ' ↓'; }
+
+.analysis-table tbody tr {
+    border-bottom: 0.5px solid #1a1a1a;
+    transition: background 0.1s;
+}
+.analysis-table tbody tr:hover { background: #0d0d0d; }
+
+.row-ne { border-left: 2px solid var(--ne); }
+.row-sw { border-left: 2px solid var(--sw); }
+.row-se { border-left: 2px solid var(--se); }
+.row-nw { border-left: 2px solid var(--nw); }
+
+.analysis-table td {
+    padding: 0.7rem 1rem;
+    vertical-align: top;
+    border-right: 0.5px solid #1a1a1a;
+}
+.analysis-table td:last-child { border-right: none; }
+
+.col-line      { width: 2.8rem; white-space: nowrap; color: #555; font-size: 0.78rem; }
+.col-city      { width: 10rem; }
+.col-dir       { width: 7rem; white-space: nowrap; color: #888; font-size: 0.78rem; }
+.col-people    { width: 16rem; }
+.col-buildings { width: 11rem; }
+.col-reign     { width: 9rem; }
+.col-text      { min-width: 20rem; }
+
+/* cities */
+.city-name {
+    display: block;
+    color: #ffffff;
+    font-style: italic;
+    margin-bottom: 0.15rem;
+}
+.city-name.cont { color: #777; font-style: normal; font-size: 0.78rem; }
+.city-group     { display: block; font-size: 0.72rem; color: #555; margin-bottom: 0.1rem; }
+.region-name    { display: block; font-size: 0.85rem; color: #ffffff; margin-top: 0.1rem; }
+.city-alias     { display: block; font-size: 0.78rem; color: #555; font-style: italic; margin-top: 0.2rem; }
+.list-summary   { display: block; font-size: 0.78rem; color: #888; margin-top: 0.3rem; line-height: 1.6; }
+
+/* people */
+.person-entry  { display: block; margin-bottom: 0.45rem; line-height: 1.5; }
+.person-name   { color: #ffffff; font-style: italic; }
+.person-pat    { display: inline-block; color: #777; font-size: 0.8rem; margin-left: 0.25rem; }
+.person-role   {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #555;
+    border: 0.5px solid #333;
+    border-radius: 2px;
+    padding: 0.04em 0.35em;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+}
+.epithet-neg   { color: #904040; font-size: 0.8rem; }
+.epithet-pos   { color: #8a7030; font-size: 0.8rem; }
+.person-ethnic { display: inline-block; color: #2a8a7a; font-size: 0.78rem; margin-left: 0.3rem; }
+.person-note   { display: block; font-size: 0.78rem; color: #666; margin-top: 0.2rem; line-height: 1.6; }
+
+/* buildings */
+.building-entry  { display: block; margin-bottom: 0.35rem; }
+.building-type   { display: block; font-size: 0.63rem; letter-spacing: 0.06em; text-transform: uppercase; color: #666; }
+.building-name   { font-style: italic; font-size: 0.82rem; color: #aaa; }
+
+.btype-fire-temple      .building-type { color: #904020; }
+.btype-bridge           .building-type { color: #2060a0; }
+.btype-fortress         .building-type { color: #706030; }
+.btype-harem            .building-type { color: #804070; }
+.btype-wall             .building-type { color: #507050; }
+.btype-residence        .building-type { color: #606080; }
+.btype-idol-temple      .building-type { color: #705050; }
+.btype-heathen-temple   .building-type { color: #705050; }
+.btype-residence-of-demons .building-type { color: #705050; }
+.btype-object           .building-type { color: #6a6a30; }
+.btype-celestial        .building-type { color: #30608a; }
+.btype-celestial        .building-name { color: #6090b0; }
+
+/* reign */
+.reign-entry { display: block; font-size: 0.83rem; color: #aaa; font-style: italic; }
+
+/* none placeholder */
+.none { color: #444; font-size: 0.78rem; }
+
+/* parallel text */
+.text-pal {
+    display: block;
+    color: #ffffff;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 0.5px solid #1e1e1e;
+}
+.text-eng {
+    display: block;
+    color: #888;
+    font-size: 0.82rem;
+    font-style: italic;
+    line-height: 1.7;
+}
+
+/* nickname shown below person name */
+.person-nickname { display: block; font-size: 0.75rem; color: #666; font-style: italic; margin-top: 0.1rem; }
+
+/* city count prefix (N cities) */
+.city-count { display: block; color: #888; font-size: 0.78rem; margin-bottom: 0.1rem; }
+
+/* measure units (wall dimensions 20) */
+.btype-measure .building-type { color: #508050; }
+.btype-measure .building-name { color: #aaa; }
+
+/* military units (52) */
+.btype-military .building-type { color: #607080; }
+.btype-military .building-name { color: #aaa; }
+
+/* city sub-entry (haft āšyān under sugd) */
+.city-sub { display: block; font-size: 0.75rem; color: #888; margin-top: 0.05rem; font-style: normal; }
+
+/* city sub-label ("(estate)" after dastgird) */
+.city-sub-label { font-style: normal; font-size: 0.72rem; color: #777; }
+
+/* estate building type */
+.btype-estate .building-type { color: #806030; }
+.btype-estate .building-name { color: #aaa; }
+
+.view-toggle-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.4rem;
+    align-items: flex-start;
+}
+.view-toggle-group {
+    display: inline-flex;
+    border: 0.5px solid #3a3a3a;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.toggle-btn--primary {
+    background: none;
+    border: none;
+    border-right: 0.5px solid #3a3a3a;
+    color: #888;
+    font-family: "lora", serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5em 1.4em;
+    cursor: pointer;
+    display: inline-block;
+    transition: color 0.15s, background 0.15s;
+}
+.toggle-btn--primary:last-child { border-right: none; }
+.toggle-btn--primary:hover { color: #ccc; background: #0d0d0d; }
+.toggle-btn--primary.active { color: #ffffff; background: #111; }

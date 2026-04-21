@@ -1,0 +1,95 @@
+@font-face {
+    font-family: "lora";
+    src: url("Lora-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ 
+body {
+    background-color: #000000;
+    color: #e8dcc8;
+    font-family: "lora", serif;
+}
+
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #000000;
+}
+
+.nav-links,
+.nav-links-left {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a,
+.nav-links-left a {
+    color: white;
+    text-decoration: none;
+    font-family: "lora", serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.80;
+    transition: opacity 0.2s ease;
+    
+}
+
+.nav-links a:hover,
+.nav-links-left a:hover {
+    opacity: 1;
+}
+
+.navbar::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 1cm;
+    right: 1cm;
+    height: 0.5px;
+    background-color: #888888
+}
+
+/* highlights the current page tab */
+.nav-links-left a.active {
+    opacity: 1;
+}
+
+.content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 140px 40px 100px 40px;
+}
+
+h1 {
+    font-family: "lora", serif;
+    font-weight: 400;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    margin-bottom: 2rem;
+}
+
+p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 1.5em;
+    color: #e8dcc8;
+}

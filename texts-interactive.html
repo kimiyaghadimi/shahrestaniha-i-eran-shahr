@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Text — Šahrestānīhā ī Ērānšahr</title>
+  <link rel="stylesheet" href="textstyle.css"/>
+  <style>
+
+    @font-face {
+      font-family: "MehrabanBookPahlavi";
+      src: url("MehrabanBookPahlavi-Rg.woff2") format("woff2"),
+           url("MehrabanBookPahlavi-Rg.ttf") format("truetype");
+    }
+
+
+    .ms-icon {
+      width: 18px; height: 18px;
+      display: block;
+    }
+
+ 
+    .itext-main {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 130px 40px 120px;
+    }
+
+    .itext-header { margin-bottom: 3rem; }
+
+    .itext-subtitle {
+      font-size: 0.82rem; color: #555;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-top: 0.4rem; margin-bottom: 2rem;
+      font-family: "lora", serif;
+    }
+
+
+    .view-toggle-row {
+      display: flex; flex-direction: column;
+      gap: 0.6rem; margin-bottom: 1.4rem; align-items: flex-start;
+    }
+    .view-toggle-group {
+      display: inline-flex;
+      border: 0.5px solid #3a3a3a; border-radius: 3px; overflow: hidden;
+    }
+    .toggle-btn--primary {
+      background: none; border: none;
+      border-right: 0.5px solid #3a3a3a;
+      color: #888; font-family: "lora", serif;
+      font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.5em 1.4em; cursor: pointer;
+      text-decoration: none; display: inline-block;
+      transition: color 0.15s, background 0.15s;
+    }
+    .toggle-btn--primary:last-child { border-right: none; }
+    .toggle-btn--primary:hover:not([disabled]) { color: #ccc; background: #0d0d0d; }
+    .toggle-btn--primary.active { color: #fff; background: #111; cursor: default; }
+    .toggle-btn--primary[disabled] { color: #fff; background: #111; cursor: default; }
+
+
+    .edition { width: 100%; }
+
+
+    .line {
+      padding: 2.5rem 0;
+      border-bottom: 0.5px solid #2a2a2a;
+/*      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+    }
+    .line:nth-child(1) { animation-delay: 0.05s; }
+    .line:nth-child(2) { animation-delay: 0.15s; }
+    .line:nth-child(3) { animation-delay: 0.25s; }
+    .line:nth-child(4) { animation-delay: 0.35s; }
+    .line:nth-child(5) { animation-delay: 0.45s; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }*/
+    }
+
+
+    .line-meta {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .line-num {
+      font-family: "lora", serif;
+      font-size: 0.72rem; letter-spacing: 0.14em;
+      color: #888; text-transform: uppercase;
+    }
+
+
+    .ms-toggle {
+      background: none;
+      border: 0.5px solid #2a2a2a; border-radius: 3px;
+      cursor: pointer; padding: 5px 8px;
+      color: #666; display: flex; align-items: center;
+      gap: 0.4em; font-family: "lora", serif;
+      font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .ms-toggle:hover { color: #5ec8c8; border-color: #5ec8c8; }
+    .ms-toggle svg {
+      width: 15px; height: 15px;
+      fill: none; stroke: currentColor;
+      stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+
+    .ms-image {
+      display: none; margin-bottom: 1.8rem;
+      border: 0.5px solid #2a2a2a; border-radius: 4px; overflow: hidden;
+    }
+    .ms-image.visible { display: block; }
+    .ms-image img {
+      width: 100%; height: auto; display: block;
+      filter: invert(1) brightness(0.88);
+    }
+
+    /* ═Pahlavi rules from before: not to be modified*/
+    .pahlavi-line {
+      direction: rtl;
+      text-align: right;
+      line-height: 2.2;
+      margin-bottom: 1.4rem;
+      width: 100%;
+      display: block;
+      overflow-wrap: normal;
+      word-break: keep-all;
+    }
+    .pahlavi {
+      font-family: "MehrabanBookPahlavi";
+      direction: rtl;
+      display: inline;
+      text-align: right;
+      unicode-bidi: isolate;
+      font-size: 2rem;
+      color: #ffffff;
+      vertical-align: middle;
+      transition: color 0.2s ease;
+    }
+    .unit {
+      position: relative;
+      display: inline-block;
+      white-space: nowrap;
+      margin: 0 0.3rem;
+      cursor: pointer;
+    }
+    .unit:hover .pahlavi { color: #5ec8c8; }
+
+    /* tooltip */
+    .word-tooltip {
+      position: absolute;
+      bottom: calc(100% + 10px); left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: #0d3333;
+      border: 0.5px solid #2a7a7a;
+      padding: 8px 14px; border-radius: 4px;
+      min-width: 130px; text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.17s ease, transform 0.17s ease;
+      z-index: 1000;
+      white-space: nowrap;
+    }
+    .word-tooltip::after {
+      content: "";
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #2a7a7a;
+    }
+    .word-tooltip .tip-gloss {
+      display: block;
+      font-family: "lora", serif;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+    .word-tooltip .tip-transcrip {
+      display: block;
+      font-family: "lora", serif;
+      font-size: 0.85rem;
+      font-style: normal;
+      color: #ffffff;
+      line-height: 1.6;
+      opacity: 0.85;
+    }
+    .unit:hover .word-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /*Transcription*/
+    .transcription-line {
+      font-family: "lora", serif;
+      font-size: 1.15rem;
+      font-style: normal;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      line-height: 1.7;
+    }
+
+    /* Translation */
+    .translation-line {
+      font-family: "lora", serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #ffffff;
+      line-height: 1.75;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul class="nav-links-left">
+      <li><a href="texts-static.html" class="active">Text</a></li>
+      <li><a href="analysis.html">Analysis</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="map.html">Map</a></li>
+    </ul>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="itext-main">
+
+    <div class="itext-header">
+      <h1>Šahrestānīhā ī Ērānšahr</h1>
+      <p class="itext-subtitle">Interactive Text</p>
+
+      <!-- Static / Interactive :same position as static page -->
+      <div class="view-toggle-row">
+        <div class="view-toggle-group">
+          <a href="texts-static.html" class="toggle-btn--primary">Static</a>
+          <button class="toggle-btn--primary active" disabled>Interactive</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="edition">
+
+
+         
+         <div class="line" id="line01">
+            <div class="line-meta">
+               <span class="line-num">1</span>
+               <button class="ms-toggle" data-line="line01" title="Show manuscript">
+                  <img src="icons8-picture-50.png" class="ms-icon" alt="manuscript"/>
+               </button>
+            </div>
+            <div class="ms-image" id="ms-line01">
+               <img src="line01.png" alt="Manuscript image for line 1">
+            </div>
+            <div class="pahlavi-line"><span class="unit" id="line01w01" data-transcrip=" Pad n&#257;m" data-gloss="In the name"><span class="pahlavi" dir="rtl">&#1662;&#1585;&#1585; &#1589;&#1605; &#65183;</span></span><span class="unit" id="line01w02" data-transcrip="ud" data-gloss="and"><span class="pahlavi" dir="rtl">&#1585;</span></span><span class="unit" id="line01w03" data-transcrip="n&#275;r&#333;g" data-gloss="power"><span class="pahlavi" dir="rtl">&#1585;&#1580;&#1604;&#1585;&#1705;</span></span><span class="unit" id="line01w04" data-transcrip="ud" data-gloss="and"><span class="pahlavi" dir="rtl">&#1585;</span></span><span class="unit" id="line01w05" data-transcrip="ay&#257;r&#299;h" data-gloss="righteousness"><span class="pahlavi" dir="rtl">&#1593;&#1593;&#1587;&#1576;&#1593;&#1593;&#1604;&#1587;&#1593;</span></span><span class="unit" id="line01w06" data-transcrip="&#299;" data-gloss="of"><span class="pahlavi" dir="rtl">&#65183;</span></span><span class="unit" id="line01w07" data-transcrip="d&#257;d&#257;r" data-gloss="the Creator"><span class="pahlavi" dir="rtl">&#65207;&#65176;&#1593;&#1593;&#1604;</span></span><span class="unit" id="line01w08" data-transcrip="Ohrmazd" data-gloss="Ohrmazd"><span class="pahlavi" dir="rtl">&#1593;&#1593;&#1585;&#1593;&#1593;&#1585;&#1605;&#1575;</span></span><span class="unit" id="line01w09" data-transcrip="&#496;adag &#299; n&#275;k" data-gloss="and good omen"><span class="pahlavi" dir="rtl">&#65183;&#65176;&#1705; &#65183; &#1585;&#1593;&#1585;&#1705;</span></span><span class="unit" id="line01w10" data-transcrip="." data-gloss=""><span class="pahlavi" dir="rtl">&#986371;</span></span></div>
+            <div class="transcription-line">Pad n&#257;m ud n&#275;r&#333;g ud ay&#257;r&#299;h &#299; d&#257;d&#257;r Ohrmazd &#496;adag &#299; n&#275;k.</div>
+            <div class="translation-line">In the name and power and righteousness of the Creator Ohrmazd and good omen.</div>
+         </div>
+
+         <div class="line" id="line02">
+            <div class="line-meta">
+               <span class="line-num">2</span>
+               <button class="ms-toggle" data-line="line02" title="Show manuscript">
+                  <img src="icons8-picture-50.png" class="ms-icon" alt="manuscript"/>
+               </button>
+            </div>
+            <div class="ms-image" id="ms-line02">
+               <img src="line02.png" alt="Manuscript image for line 2">
+            </div>
+            <div class="pahlavi-line"><span class="unit" id="line02w01" data-transcrip="&#352;ahrest&#257;n&#299;h&#257;  &#299;" data-gloss="The cities"><span class="pahlavi" dir="rtl">&#65211;&#65174;&#1585;&#1593;&#1593;&#1585;&#1589;&#1575;&#65183;</span></span><span class="unit" id="line02w03" data-transcrip="andar" data-gloss="in"><span class="pahlavi" dir="rtl">&#983040;</span></span><span class="unit" id="line02w04" data-transcrip="zam&#299;g" data-gloss="the land"><span class="pahlavi" dir="rtl">&#64699;&#65227;&#64401;&#1585;</span></span><span class="unit" id="line02w05" data-transcrip="&#299;" data-gloss="of"><span class="pahlavi" dir="rtl">&#65183;</span></span><span class="unit" id="line02w06" data-transcrip="&#274;r&#257;n &#353;ahr" data-gloss="&#274;r&#257;n-&#353;ahr"><span class="pahlavi" dir="rtl">&#1593;&#1593;&#65184;&#1604;&#1575;&#65198;&#1585;&#65211;&#65174;&#1585;&#1585;</span></span><span class="unit" id="line02w08" data-transcrip="kerd" data-gloss=""><span class="pahlavi" dir="rtl">&#1705;&#1585;&#1578;</span></span><span class="unit" id="line02w09" data-transcrip="est&#275;d" data-gloss=""><span class="pahlavi" dir="rtl">&#65227;&#64401;&#1585;&#64699;&#1585;&#1585;&#65183;&#65176;</span></span><span class="unit" id="line02w10" data-transcrip="&#496;ud" data-gloss=""><span class="pahlavi" dir="rtl">&#1593;&#1585;&#65183;&#65176;</span></span><span class="unit" id="line02w11" data-transcrip="&#496;ud" data-gloss=""><span class="pahlavi" dir="rtl">&#1593;&#1585;&#65183;&#65176;</span></span><span class="unit" id="line02w12" data-transcrip="b&#363;m" data-gloss=""><span class="pahlavi" dir="rtl">&#1576;&#1585;&#1605;</span></span><span class="unit" id="line02w13" data-transcrip="k&#363;" data-gloss=""><span class="pahlavi" dir="rtl">&#1593;&#1593;&#65244;</span></span><span class="unit" id="line02w14" data-transcrip="kad&#257;m" data-gloss=""><span class="pahlavi" dir="rtl">&#1705;&#1578;&#1575;&#1605;</span></span><span class="unit" id="line02w15" data-transcrip="sar-xwad&#257;y" data-gloss=""><span class="pahlavi" dir="rtl">&#1579;&#1604;&#1575;&#65198;&#1578;&#1593;&#1593;</span></span><span class="unit" id="line02w16" data-transcrip="kerd" data-gloss=""><span class="pahlavi" dir="rtl">&#1705;&#1585;&#1578;</span></span><span class="unit" id="line02w17" data-transcrip="pad" data-gloss=""><span class="pahlavi" dir="rtl">&#1662;&#1585;&#1585;</span></span><span class="unit" id="line02w18" data-transcrip="g&#333;k&#257;n" data-gloss=""><span class="pahlavi" dir="rtl">&#1593;&#1585;&#1705;&#1593;&#1593;&#1585;</span></span><span class="unit" id="line02w19" data-transcrip="abar" data-gloss=""><span class="pahlavi" dir="rtl">&#64721;</span></span><span class="unit" id="line02w20" data-transcrip="&#275;n" data-gloss=""><span class="pahlavi" dir="rtl">&#1593;&#1585;&#1605;&#1585;</span></span><span class="unit" id="line02w21" data-transcrip="ay&#257;dg&#257;r" data-gloss=""><span class="pahlavi" dir="rtl">&#1593;&#1593;&#1587;&#1576;&#1575;&#1578;&#1705;&#1593;&#1593;&#1604;</span></span><span class="unit" id="line02w22" data-transcrip="nibi&#353;t" data-gloss=""><span class="pahlavi" dir="rtl">&#1585;&#1662;&#1589;&#1578;</span></span><span class="unit" id="line02w23" data-transcrip="est&#275;d" data-gloss=""><span class="pahlavi" dir="rtl">&#65227;&#64401;&#1585;&#64699;&#1585;&#1585;&#65183;&#65176;</span></span><span class="unit" id="line02w24" data-transcrip="" data-gloss=""><span class="pahlavi" dir="rtl">&#986371;</span></span></div>
+            <div class="transcription-line">&#352;ahrest&#257;n&#299;h&#257; &#299; andar zam&#299;g &#299; &#274;r&#257;n &#353;ahr kerd est&#275;d &#496;ud &#496;ud b&#363;m k&#363; kad&#257;m sar-xwad&#257;y kerd pad g&#333;k&#257;n abar &#275;n ay&#257;dg&#257;r nibi&#353;t est&#275;d.</div>
+            <div class="translation-line">The cities in the land of &#274;r&#257;n-&#353;ahr which have been built in different days, where and which overlord made them is written in detail in this memoir.</div>
+         </div>
+
+         
+
+          </div>
+
+  </main>
+
+  <script>
+    // Build tooltip divs for each word unit
+    document.querySelectorAll('.unit').forEach(function(unit) {
+      var gloss   = unit.getAttribute('data-gloss')   || '';
+      var transcrip = unit.getAttribute('data-transcrip') || '';
+      if (!gloss && !transcrip) return;
+      var tip = document.createElement('div');
+      tip.className = 'word-tooltip';
+      if (gloss) {
+        var g = document.createElement('span');
+        g.className = 'tip-gloss';
+        g.textContent = gloss;
+        tip.appendChild(g);
+      }
+      if (transcrip) {
+        var t = document.createElement('span');
+        t.className = 'tip-transcrip';
+        t.textContent = transcrip;
+        tip.appendChild(t);
+      }
+      unit.appendChild(tip);
+    });
+
+    // Manuscript image toggle
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.ms-toggle');
+      if (!btn) return;
+      var lineId = btn.getAttribute('data-line');
+      var panel  = document.getElementById('ms-' + lineId);
+      if (panel) panel.classList.toggle('visible');
+    });
+  </script>
+
+</body>
+</html>
