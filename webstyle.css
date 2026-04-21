@@ -1,0 +1,168 @@
+
+@font-face {
+  font-family: "lora";
+  src: url("Lora-VariableFont_wght.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  color:black;
+}
+
+
+.body {
+   margin: 0;
+}
+
+/*
+.hero {
+    height: 100vh;
+    background-image: url("wall.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;       
+}
+*/
+.hero {
+    height: 100vh;
+    background-image: url("relief.jpg");
+    background-size: 100%,85%;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.hero-title {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-family: "lora", serif;
+    font-weight: 400;
+/*    text-transform: uppercase;*/
+    text-align: center;
+    font-size: clamp(2rem, 6vw, 6rem);
+    letter-spacing: 0.05em;
+    padding: 0 40px  5px 40px;
+}
+
+/* That smooth fade scroll to "about" section */
+.hero-fade {
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:140vh;
+    background: linear-gradient(to bottom, 
+        #00000000,
+        black
+    );
+}
+
+.overlay-image {
+    position: absolute;
+    height: auto;
+    width: 60vw;
+    /* max-width: */
+}
+
+.about {
+    padding: 100px 40px;
+ /*   background-color: #000000; */
+    background-color: black;
+    color: black;
+    text-align: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-family: "lora", serif;
+    font-weight: 400;
+/*    text-transform: uppercase;*/
+    letter-spacing: 0.02em;
+}
+
+p {
+    font-family: "lora", serif;
+}
+
+.mirror-image {
+   width: min(300px, 30vw);
+    height: auto;
+    display: block;
+    margin: 40px auto;
+}
+
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.nav-logo {
+    color: white;
+    text-decoration: none;
+    font-family: "lora", serif;
+    font-weight: 400;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-family: "lora", serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.80;
+   transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links-left a:hover {
+    opacity: 1;
+}
+
+.nav-links-left a.active {
+    opacity: 1;
+}
+
+
+.nav-links-left {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links-left a {
+    color: white;
+    text-decoration: none;
+    font-family: "lora", serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.80;
+   transition: opacity 0.2s ease;
+}

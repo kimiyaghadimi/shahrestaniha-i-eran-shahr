@@ -1,0 +1,268 @@
+/* ─────────────────────────────────────────────
+   texts-static.css
+   Parallel text layout — Šahrestānīhā ī Ērānšahr
+   ───────────────────────────────────────────── */
+
+/* ── Page layout ── */
+.text-main {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 130px 40px 120px;
+}
+
+.text-header {
+  margin-bottom: 2.5rem;
+}
+
+.text-subtitle {
+  font-size: 0.82rem;
+  color: #555;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+  margin-bottom: 2rem;
+  font-family: "lora", serif;
+}
+
+/* ── Two-level toggle ── */
+.view-toggle-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+  align-items: flex-start;
+}
+
+.view-toggle-group {
+  display: inline-flex;
+  border: 0.5px solid #3a3a3a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.toggle-btn--primary {
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-right: 0.5px solid #3a3a3a;
+  color: #888;
+  font-family: "lora", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.5em 1.4em;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.toggle-btn--primary:last-child { border-right: none; }
+.toggle-btn--primary:hover:not(:disabled) { color: #ccc; background: #0d0d0d; }
+.toggle-btn--primary.active { color: #ffffff; background: #111; }
+.toggle-btn--primary:disabled { color: #444; cursor: default; }
+
+.view-toggle-sub {
+  margin-left: 1rem;
+  border-color: #2a2a2a;
+}
+
+.toggle-btn--sub {
+  background: none;
+  border: none;
+  border-right: 0.5px solid #2a2a2a;
+  color: #777;
+  font-family: "lora", serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.4em 1.1em;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.toggle-btn--sub:last-child { border-right: none; }
+.toggle-btn--sub:hover { color: #ccc; background: #0a0a0a; }
+.toggle-btn--sub.active { color: #ffffff; background: #0d0d0d; }
+
+/* ── Legend ── */
+.hl-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.8rem;
+  align-items: center;
+}
+
+.legend-swatch {
+  font-size: 0.73rem;
+  font-family: "lora", serif;
+  padding: 0.15em 0.55em;
+  border-radius: 2px;
+  cursor: default;
+}
+
+/* ── Column headers ── */
+.text-cols-header {
+  display: grid;
+  grid-template-columns: 2.8rem 1fr 1fr;
+  gap: 0 2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 0.5px solid #3a3a3a;
+}
+
+.text-linenum-header,
+.text-col-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+  font-family: "lora", serif;
+}
+
+/* ── Loading ── */
+.text-loading {
+  color: #444;
+  font-family: "lora", serif;
+  font-size: 0.85rem;
+  padding: 2rem 0;
+}
+
+/* ── Text grid ── */
+.text-container { width: 100%; }
+.text-grid      { width: 100%; }
+
+.text-row {
+  display: grid;
+  grid-template-columns: 2.8rem 1fr 1fr;
+  gap: 0 2rem;
+  padding: 0.9rem 0;
+  border-bottom: 0.5px solid #2a2a2a;
+  transition: background 0.1s;
+  align-items: baseline;
+}
+
+.text-row:hover { background: #070707; }
+
+.text-row--head,
+.text-row--trailer {
+  padding: 1.2rem 0;
+  border-bottom: 0.5px solid #3a3a3a;
+}
+
+/* head/trailer text — white like main text */
+.text-row--head .text-pal,
+.text-row--trailer .text-pal {
+  color: #ffffff;
+  font-style: normal;
+}
+.text-row--head .text-eng,
+.text-row--trailer .text-eng {
+  color: #ffffff;
+  font-style: italic;
+}
+
+/* Line number */
+.text-linenum {
+  font-size: 0.7rem;
+  color: #888;
+  font-family: "lora", serif;
+  padding-top: 0.1em;
+  user-select: none;
+}
+
+/* Pahlavi — pure white */
+.text-pal {
+  font-family: "lora", serif;
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: #ffffff;
+}
+
+/* English — white, italic */
+.text-eng {
+  font-family: "lora", serif;
+  font-size: 0.87rem;
+  line-height: 1.85;
+  color: #ffffff;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════
+   HIGHLIGHT SPANS
+   No underlines, no cursor changes,
+   colour only.
+   ══════════════════════════════════════ */
+
+/* Person names — warm gold */
+.hl-person {
+  color: #c9a84c;
+}
+
+/* Cities and regions — soft teal */
+.hl-city {
+  color: #5a9e8f;
+}
+
+/* Buildings (fire-temples, fortresses etc.) — dusty rose */
+.hl-building {
+  color: #b07070;
+}
+
+/* Geographic names (mountains, rivers, directions) — steel blue */
+.hl-geo {
+  color: #6b9ab8;
+}
+
+/* Dates — pale lavender */
+.hl-date {
+  color: #9b8ab4;
+}
+
+/* Titles / roles (non-king roleNames) — warm grey */
+.hl-role {
+  color: #888888;
+}
+
+/* Pejorative epithets — muted red */
+.hl-pejorative {
+  color: #a05858;
+}
+
+/* Praise epithets — amber */
+.hl-praise {
+  color: #b8922a;
+}
+
+/* interp elements — underlined only, inherits surrounding colour.
+   The text-decoration-color matches the current text colour so it
+   looks like a deliberate underline not a link. */
+.hl-interp {
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 3px;
+  text-decoration-color: currentColor;
+}
+
+/* ── Legend swatches ── */
+.legend-swatch.hl-person   { color: #c9a84c; border: 0.5px solid rgba(201,168,76,0.3); background: rgba(201,168,76,0.06); }
+.legend-swatch.hl-city     { color: #5a9e8f; border: 0.5px solid rgba(90,158,143,0.3); background: rgba(90,158,143,0.06); }
+.legend-swatch.hl-building { color: #b07070; border: 0.5px solid rgba(176,112,112,0.3); background: rgba(176,112,112,0.06); }
+.legend-swatch.hl-geo      { color: #6b9ab8; border: 0.5px solid rgba(107,154,184,0.3); background: rgba(107,154,184,0.06); }
+.legend-swatch.hl-date     { color: #9b8ab4; border: 0.5px solid rgba(155,138,180,0.3); background: rgba(155,138,180,0.06); }
+.legend-swatch.hl-role     { color: #888888; border: 0.5px solid rgba(136,136,136,0.3); background: rgba(136,136,136,0.06); }
+.legend-swatch.hl-pejorative { color: #a05858; border: 0.5px solid rgba(160,88,88,0.3); background: rgba(160,88,88,0.06); }
+.legend-swatch.hl-praise   { color: #b8922a; border: 0.5px solid rgba(184,146,42,0.3); background: rgba(184,146,42,0.06); }
+.legend-swatch.hl-interp   { border-bottom: 0.5px solid #666; color: #999; background: transparent; }
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .text-main { padding: 100px 20px 80px; }
+  .text-row,
+  .text-cols-header {
+    grid-template-columns: 2rem 1fr;
+    grid-template-rows: auto auto;
+  }
+  .text-row .text-eng,
+  .text-cols-header .text-col-label:last-child {
+    grid-column: 2;
+    padding-top: 0.3rem;
+  }
+}

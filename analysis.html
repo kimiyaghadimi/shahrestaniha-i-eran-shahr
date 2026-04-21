@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Text — Šahrestānīhā ī Ērānšahr</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="analysisstyle.css" />
+    </head>
+    
+    <body>
+        <nav class="navbar">
+            <ul class="nav-links-left">
+                <li><a href="texts-static.html" class="active">Text</a></li>
+                <li><a href="analysis.html">Analysis</a></li>
+                <li><a href="glossary.html">Glossary</a></li>
+                <li><a href="map.html">Map</a></li>
+            </ul>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content">
+            <h1>Cities and their Builders</h1>
+            <div class="view-toggle-row">
+                <div class="view-toggle-group">
+                    <button class="toggle-btn toggle-btn--primary active">Cities</button>
+                    <a href="network.html" class="toggle-btn toggle-btn--primary" style="text-decoration:none">People</a>
+                </div>
+            </div>
+        </main>
+        
+        <section class="table-section">
+            <div class="table-wrap" id="table-wrap">
+                <div class="table-loading" id="table-loading">Loading table…</div>
+            </div>
+        </section>
+        
+        <script>
+        const XML_PATH  = 'sahrestaniha_i_eran_sahr_multilingual.xml';
+        const XSLT_PATH = 'analysis.xslt';
+
+        async function loadTable() {
+            const loading = document.getElementById('table-loading');
+            try {
+                const [xText, sText] = await Promise.all([
+                    fetch(XML_PATH).then(r  => { if (!r.ok) throw new Error('XML ' + r.status); return r.text(); }),
+                    fetch(XSLT_PATH).then(r => { if (!r.ok) throw new Error('XSLT ' + r.status); return r.text(); }),
+                ]);
+                const parser = new DOMParser();
+                const xDoc  = parser.parseFromString(xText,  'application/xml');
+                const sDoc  = parser.parseFromString(sText,  'application/xml');
+                if (xDoc.querySelector('parsererror')) throw new Error('XML parse error');
+                if (sDoc.querySelector('parsererror')) throw new Error('XSLT parse error');
+                const proc   = new XSLTProcessor();
+                proc.importStylesheet(sDoc);
+                const result = proc.transformToFragment(xDoc, document);
+                loading.remove();
+                document.getElementById('table-wrap').appendChild(result);
+                setupSort();
+            } catch(e) {
+                loading.textContent = 'Error: ' + e.message + ' — run a local server (python3 -m http.server 8000)';
+                loading.style.color = '#904040';
+            }
+        }
+
+        function setupSort() {
+            const table = document.querySelector('.analysis-table');
+            if (!table) return;
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            table.querySelectorAll('th').forEach((th, idx) => {
+                let dir = 'asc';
+                th.addEventListener('click', () => {
+                    table.querySelectorAll('th').forEach(h => h.removeAttribute('data-sort'));
+                    th.setAttribute('data-sort', dir);
+                    const sorted = [...rows].sort((a, b) => {
+                        const av = (a.cells[idx]?.textContent || '').trim();
+                        const bv = (b.cells[idx]?.textContent || '').trim();
+                        if (idx === 0) return dir==='asc' ? (+av||0)-(+bv||0) : (+bv||0)-(+av||0);
+                        return dir==='asc'
+                            ? av.localeCompare(bv,'en',{sensitivity:'base'})
+                            : bv.localeCompare(av,'en',{sensitivity:'base'});
+                    });
+                    const tbody = table.querySelector('tbody');
+                    sorted.forEach(r => tbody.appendChild(r));
+                    dir = dir==='asc' ? 'desc' : 'asc';
+                });
+            });
+        }
+
+        loadTable();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relations — Šahrestānīhā ī Ērānšahr</title>
+  <link rel="stylesheet" href="textstyle.css"/>
+  <style>
+    .network-main { max-width:1300px; margin:0 auto; padding:130px 40px 80px; }
+    .network-subtitle { font-size:0.82rem; color:#555; letter-spacing:0.06em;
+      text-transform:uppercase; margin-top:0.4rem; margin-bottom:0.8rem; font-family:"lora",serif; }
+    .net-legend { display:flex; flex-wrap:wrap; gap:0.5rem 1.4rem;
+      margin-top:1.4rem; margin-bottom:1.6rem; align-items:center;  width:100%;}
+    .leg-item { display:flex; align-items:center; gap:0.45rem;
+      font-family:"lora",serif; font-size:0.72rem; color:#888; }
+    .leg-line { width:24px; height:2px; border-radius:1px; }
+    .leg-dot  { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .net-controls { display:flex; gap:0.6rem; align-items:center;
+      margin-bottom:1rem; flex-wrap:wrap; }
+    .ctrl-label { font-family:"lora",serif; font-size:0.7rem; letter-spacing:0.06em;
+      text-transform:uppercase; color:#555; }
+    .ctrl-btn { background:none; border:0.5px solid #2a2a2a; border-radius:3px;
+      color:#888; font-family:"lora",serif; font-size:0.68rem; letter-spacing:0.06em;
+      text-transform:uppercase; padding:0.35em 0.9em; cursor:pointer;
+      transition:color 0.15s, border-color 0.15s; }
+    .ctrl-btn:hover { color:#fff; border-color:#555; }
+    .ctrl-btn.active { color:#fff; border-color:#555; background:#111; }
+    .net-canvas { width:100%; height:72vh; min-height:500px;
+      background:#050505; border:0.5px solid #1a1a1a;
+      border-radius:4px; overflow:hidden; position:relative; }
+    #net-svg { width:100%; height:100%; cursor:grab; }
+    #net-svg:active { cursor:grabbing; }
+    .net-tip { position:absolute; background:#0d0d0d; border:0.5px solid #2a2a2a;
+      border-radius:4px; padding:10px 14px; font-family:"lora",serif;
+      pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:100;
+      max-width:240px; }
+    .net-tip.vis { opacity:1; }
+    .tip-name { font-size:1rem; color:#fff; margin-bottom:0.3rem; }
+    .tip-role { font-size:0.72rem; color:#5ec8c8; letter-spacing:0.05em;
+      text-transform:uppercase; margin-bottom:0.2rem; }
+    .tip-s { font-size:0.7rem; color:#555; }
+    .tip-rel { font-size:0.72rem; color:#888; margin-top:0.4rem; line-height:1.5; }
+    .node text { font-family:"lora",serif; font-size:11px; fill:#aaa;
+      pointer-events:none; user-select:none; font-style:italic; }
+      view-toggle-row { display:flex; flex-direction:column; gap:0.6rem; margin-bottom:2.5rem; align-items:flex-start; }
+.view-toggle-group { display:inline-flex; border:0.5px solid #3a3a3a; border-radius:3px; overflow:hidden; }
+.toggle-btn--primary { background:none; border:none; border-right:0.5px solid #3a3a3a; color:#888; font-family:"lora",serif; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.5em 1.4em; cursor:pointer; text-decoration:none; display:inline-block; transition:color 0.15s, background 0.15s; }
+.toggle-btn--primary:last-child { border-right:none; }
+.toggle-btn--primary:hover { color:#ccc; background:#0d0d0d; }
+.toggle-btn--primary.active { color:#fff; background:#111; cursor:default; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <ul class="nav-links-left">
+      <li><a href="texts-static.html">Text</a></li>
+      <li><a href="analysis.html" class="active">Analysis</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="map.html">Map</a></li>
+    </ul>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+    </ul>
+  </nav>
+  <main class="network-main">
+    <h1>People and their Relations</h1>
+    <p class="network-subtitle"></p>
+    <div class="view-toggle-row">
+      <div class="view-toggle-group">
+        <a href="analysis.html" class="toggle-btn toggle-btn--primary">Cities</a>
+        <button class="toggle-btn toggle-btn--primary active">People</button>
+      </div>
+    </div>
+    
+    <div class="net-legend">
+      <div class="leg-item"><div class="leg-line" style="background:#c9a84c"></div>son / daughter of</div>
+      <div class="leg-item"><div class="leg-line" style="background:#5ec8c8"></div>father of</div>
+      <div class="leg-item"><div class="leg-line" style="background:#b07070"></div>wife of</div>
+      <div class="leg-item"><div class="leg-line" style="background:#7a5a9a"></div>family / nephew</div>
+      <div class="leg-item"><div class="leg-line" style="background:#5a8a5a"></div>built</div>
+      <div class="leg-item" style="margin-left:1rem"><div class="leg-dot" style="background:#5ec8c8"></div>king / khan</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#a05858"></div>pejorative</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#888"></div>person</div>
+    </div>
+<!--    <div class="net-controls">
+      <span class="ctrl-label">Filter:</span>
+      <button class="ctrl-btn active" data-f="all">All</button>
+      <button class="ctrl-btn" data-f="parent">Lineage</button>
+      <button class="ctrl-btn" data-f="spouse">Spouse</button>
+      <button class="ctrl-btn" data-f="family">Family</button>
+      <button class="ctrl-btn" data-f="built">Built</button>
+      <span class="ctrl-label" style="margin-left:1rem">Scroll to zoom · Drag to pan · Click node to highlight</span>
+    </div>-->
+    
+    <div class="net-canvas" id="net-canvas">
+      <svg id="net-svg"></svg>
+      <div class="net-tip" id="net-tip">
+        <div class="tip-name" id="tip-name"></div>
+        <div class="tip-role" id="tip-role"></div>
+        <div class="tip-s" id="tip-s"></div>
+        <div class="tip-rel" id="tip-rel"></div>
+      </div>
+    </div>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script>
+  const RAW = {"nodes": [{"id": "kay-us-kawadan", "name": "kay-us", "role": "", "epithet": "", "count": 1}, {"id": "siyawaxsh-kay-usan", "name": "siyāwaxš", "role": "", "epithet": "", "count": 1}, {"id": "kay-husraw-siyawaxshan", "name": "kay-husrō", "role": "", "epithet": "", "count": 1}, {"id": "zardhusht", "name": "Zardušt", "role": "", "epithet": "", "count": 1}, {"id": "wishtasp", "name": "wištāsp-šā", "role": "king", "epithet": "", "count": 1}, {"id": "skandar", "name": "skandar", "role": "", "epithet": "pejorative", "count": 1}, {"id": "frasiyag-tur", "name": "frāsiyāg", "role": "", "epithet": "pejorative", "count": 1}, {"id": "spandyad-wishtaspan", "name": "spandyād", "role": "", "epithet": "", "count": 1}, {"id": "narseh-yahudagan", "name": "narsēh", "role": "", "epithet": "", "count": 1}, {"id": "wahram-yazdgirdan", "name": "wahrām", "role": "", "epithet": "", "count": 1}, {"id": "shapuhr-ardashiran", "name": "šāpuhr", "role": "", "epithet": "", "count": 1}, {"id": "tus-nodaran", "name": "tūs", "role": "", "epithet": "", "count": 1}, {"id": "zarer", "name": "zarēr", "role": "", "epithet": "", "count": 1}, {"id": "kay-luhrasp", "name": "kay-luhrāsp", "role": "", "epithet": "", "count": 1}, {"id": "yazdgird-shapuhran", "name": "yazdgird", "role": "", "epithet": "", "count": 1}, {"id": "kay-husraw-kawadan", "name": "kay-husrō", "role": "", "epithet": "", "count": 1}, {"id": "tus-warazag", "name": "tūs", "role": "", "epithet": "", "count": 1}, {"id": "peroz-shapuhran", "name": "pērōz", "role": "", "epithet": "", "count": 1}, {"id": "amitus", "name": "āmitūs", "role": "", "epithet": "", "count": 1}, {"id": "kesar", "name": "kēsar", "role": "", "epithet": "", "count": 1}, {"id": "ardashir-spandyadan", "name": "ardašīr", "role": "", "epithet": "", "count": 1}, {"id": "raham-godarzan", "name": "rahām", "role": "", "epithet": "", "count": 1}, {"id": "bastwar-zareran", "name": "bastwar", "role": "", "epithet": "", "count": 1}, {"id": "spandarmad", "name": "Spandarmad", "role": "", "epithet": "", "count": 1}, {"id": "ardashir-babagan", "name": "ardašīr", "role": "", "epithet": "", "count": 1}, {"id": "kawad-perozan", "name": "kawād", "role": "king", "epithet": "", "count": 1}, {"id": "daray-darayan", "name": "dārāy", "role": "", "epithet": "", "count": 1}, {"id": "humay-chihr-azadan", "name": "humāy", "role": "", "epithet": "", "count": 1}, {"id": "ohrmazd-shapuhran", "name": "Ohrmazd", "role": "", "epithet": "praise", "count": 1}, {"id": "shishinduxt", "name": "šīšīnduxt", "role": "", "epithet": "", "count": 1}, {"id": "resh-galudag", "name": "rēš-galūdag", "role": "king", "epithet": "", "count": 1}, {"id": "fredon-adwenan", "name": "frēdōn", "role": "", "epithet": "", "count": 1}, {"id": "wan-gulaxshan", "name": "wan", "role": "", "epithet": "", "count": 1}, {"id": "kay-kawad", "name": "kay-kawād", "role": "", "epithet": "", "count": 1}, {"id": "tur-brad-rosh", "name": "tūr", "role": "", "epithet": "", "count": 1}, {"id": "kawad", "name": "kawad", "role": "", "epithet": "", "count": 1}, {"id": "the-jewess", "name": "the-jewess", "role": "", "epithet": "", "count": 1}, {"id": "nodar", "name": "nodar", "role": "", "epithet": "", "count": 1}, {"id": "warazag-gewan", "name": "warazag-gewan", "role": "", "epithet": "", "count": 1}, {"id": "gew", "name": "gew", "role": "", "epithet": "", "count": 1}, {"id": "godarz", "name": "godarz", "role": "", "epithet": "", "count": 1}, {"id": "pabag", "name": "pabag", "role": "", "epithet": "", "count": 1}, {"id": "daray-father", "name": "daray-father", "role": "", "epithet": "", "count": 1}, {"id": "chihr-azad", "name": "chihr-azad", "role": "", "epithet": "", "count": 1}, {"id": "adwen", "name": "adwen", "role": "", "epithet": "", "count": 1}, {"id": "filip", "name": "filip", "role": "", "epithet": "", "count": 1}, {"id": "gulaxsh", "name": "gulaxsh", "role": "", "epithet": "", "count": 1}, {"id": "drubushtih-arwand-asp", "name": "drubushtih-arwand-asp", "role": "", "epithet": "", "count": 1}, {"id": "brad-rosh", "name": "brad-rosh", "role": "", "epithet": "", "count": 1}, {"id": "spitaman", "name": "spitaman", "role": "", "epithet": "", "count": 1}], "links": [{"source": "kay-us-kawadan", "target": "kawad", "type": "parent", "subtype": "son-of", "sentence": "2"}, {"source": "siyawaxsh-kay-usan", "target": "kay-us-kawadan", "type": "parent", "subtype": "son-of", "sentence": "2"}, {"source": "kay-husraw-siyawaxshan", "target": "siyawaxsh-kay-usan", "type": "parent", "subtype": "son-of", "sentence": "38"}, {"source": "zardhusht", "target": "spitaman", "type": "parent", "subtype": "son-of", "sentence": "59"}, {"source": "skandar", "target": "filip", "type": "parent", "subtype": "son-of", "sentence": "53"}, {"source": "spandyad-wishtaspan", "target": "wishtasp", "type": "parent", "subtype": "son-of", "sentence": "8"}, {"source": "narseh-yahudagan", "target": "the-jewess", "type": "parent", "subtype": "son-of", "sentence": "10"}, {"source": "wahram-yazdgirdan", "target": "yazdgird-shapuhran", "type": "parent", "subtype": "son-of", "sentence": "11"}, {"source": "shapuhr-ardashiran", "target": "ardashir-babagan", "type": "parent", "subtype": "son-of", "sentence": "13"}, {"source": "tus-nodaran", "target": "nodar", "type": "parent", "subtype": "son-of", "sentence": "14"}, {"source": "kay-luhrasp", "target": "wishtasp", "type": "parent", "subtype": "father-of", "sentence": "16"}, {"source": "yazdgird-shapuhran", "target": "shapuhr-ardashiran", "type": "parent", "subtype": "son-of", "sentence": "18"}, {"source": "kay-husraw-kawadan", "target": "kawad", "type": "parent", "subtype": "son-of", "sentence": "19"}, {"source": "tus-warazag", "target": "warazag-gewan", "type": "parent", "subtype": "son-of", "sentence": "21"}, {"source": "peroz-shapuhran", "target": "shapuhr-ardashiran", "type": "parent", "subtype": "son-of", "sentence": "31"}, {"source": "amitus", "target": "kesar", "type": "family", "subtype": "nephew-of", "sentence": "32"}, {"source": "ardashir-spandyadan", "target": "spandyad-wishtaspan", "type": "parent", "subtype": "son-of", "sentence": "34"}, {"source": "raham-godarzan", "target": "godarz", "type": "parent", "subtype": "son-of", "sentence": "35"}, {"source": "bastwar-zareran", "target": "zarer", "type": "parent", "subtype": "son-of", "sentence": "36"}, {"source": "spandarmad", "target": "frasiyag-tur", "type": "spouse", "subtype": "wife-of", "sentence": "38"}, {"source": "ardashir-babagan", "target": "pabag", "type": "parent", "subtype": "son-of", "sentence": "38"}, {"source": "kawad-perozan", "target": "peroz-shapuhran", "type": "parent", "subtype": "son-of", "sentence": "39"}, {"source": "daray-darayan", "target": "daray-father", "type": "parent", "subtype": "son-of", "sentence": "42"}, {"source": "humay-chihr-azadan", "target": "chihr-azad", "type": "parent", "subtype": "son-of", "sentence": "45"}, {"source": "ohrmazd-shapuhran", "target": "shapuhr-ardashiran", "type": "parent", "subtype": "son-of", "sentence": "46"}, {"source": "shishinduxt", "target": "yazdgird-shapuhran", "type": "spouse", "subtype": "wife-of", "sentence": "47"}, {"source": "shishinduxt", "target": "resh-galudag", "type": "parent", "subtype": "daughter-of", "sentence": "47"}, {"source": "shishinduxt", "target": "wahram-yazdgirdan", "type": "parent", "subtype": "parent", "sentence": "47"}, {"source": "fredon-adwenan", "target": "adwen", "type": "parent", "subtype": "son-of", "sentence": "50"}, {"source": "wan-gulaxshan", "target": "gulaxsh", "type": "parent", "subtype": "daughter-of", "sentence": "57"}, {"source": "wan-gulaxshan", "target": "kay-kawad", "type": "spouse", "subtype": "wife-of", "sentence": "57"}, {"source": "tur-brad-rosh", "target": "drubushtih-arwand-asp", "type": "built", "subtype": "built", "sentence": "57"}, {"source": "tur-brad-rosh", "target": "brad-rosh", "type": "parent", "subtype": "son-of", "sentence": "57"}, {"source": "warazag-gewan", "target": "gew", "type": "family", "subtype": "member-of", "sentence": "21"}]};
+  const EDGE_C = {'son-of':'#c9a84c','daughter-of':'#c9a84c','father-of':'#5ec8c8',
+    'wife-of':'#b07070','member-of':'#7a5a9a','nephew-of':'#7a5a9a',
+    'built':'#5a8a5a','parent':'#c9a84c','spouse':'#b07070','family':'#7a5a9a'};
+  function lc(d){ return EDGE_C[d.subtype]||EDGE_C[d.type]||'#3a3a3a'; }
+  function nc(d){
+    if(d.epithet==='pejorative') return '#a05858';
+    if(d.role==='king'||d.role==='khan') return '#5ec8c8';
+    return '#888';
+  }
+  function nr(d){ return Math.max(5, Math.min(14, 5+d.count*1.5)); }
+
+  function build(filterType){
+    const svg = d3.select('#net-svg'); svg.selectAll('*').remove();
+    const W = document.getElementById('net-svg').clientWidth;
+    const H = document.getElementById('net-svg').clientHeight;
+    const links = filterType ? RAW.links.filter(l=>l.type===filterType) : RAW.links;
+    const used = new Set(); links.forEach(l=>{used.add(l.source);used.add(l.target);});
+    const nodes = filterType ? RAW.nodes.filter(n=>used.has(n.id)) : RAW.nodes;
+    const sn = {}; nodes.forEach(n=>sn[n.id]=n);
+    const sl = links.filter(l=>sn[l.source]&&sn[l.target]).map(l=>({...l,source:sn[l.source],target:sn[l.target]}));
+    const zoom=d3.zoom().scaleExtent([0.2,4]).on('zoom',e=>g.attr('transform',e.transform));
+    svg.call(zoom);
+    const g=svg.append('g');
+    const mtypes=[...new Set(sl.map(l=>l.subtype||l.type))];
+    svg.append('defs').selectAll('marker').data(mtypes).join('marker')
+      .attr('id',d=>'arr-'+d).attr('viewBox','0 -4 8 8')
+      .attr('refX',18).attr('refY',0).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+      .append('path').attr('d','M0,-4L8,0L0,4')
+      .attr('fill',d=>EDGE_C[d]||'#3a3a3a').attr('fill-opacity',0.6);
+    const link=g.append('g').selectAll('line').data(sl).join('line')
+      .attr('stroke',lc).attr('stroke-width',1.2).attr('stroke-opacity',0.6)
+      .attr('marker-end',d=>'url(#arr-'+(d.subtype||d.type)+')');
+    const node=g.append('g').selectAll('g').data(nodes).join('g').attr('class','node')
+      .call(d3.drag()
+        .on('start',(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y;})
+        .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y;})
+        .on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}));
+    node.append('circle').attr('r',nr).attr('fill',nc).attr('fill-opacity',0.85)
+      .attr('stroke',d=>nc(d)).attr('stroke-width',0.5).attr('stroke-opacity',0.3);
+    node.append('text').attr('dy',d=>-nr(d)-4).attr('text-anchor','middle').text(d=>d.name||d.id);
+    const tip=document.getElementById('net-tip');
+    const canv=document.getElementById('net-canvas');
+    node.on('mousemove',(e,d)=>{
+      const r=canv.getBoundingClientRect();
+      let x=e.clientX-r.left+14, y=e.clientY-r.top-10;
+      if(x+250>r.width) x=e.clientX-r.left-260;
+      tip.style.left=x+'px'; tip.style.top=y+'px';
+      document.getElementById('tip-name').textContent=d.name||d.id;
+      document.getElementById('tip-role').textContent=d.role?d.role.toUpperCase():'';
+      document.getElementById('tip-s').textContent='';
+      const rels=sl.filter(l=>l.source.id===d.id||l.target.id===d.id);
+      document.getElementById('tip-rel').innerHTML=rels.map(l=>{
+        const o=l.source.id===d.id?l.target:l.source;
+        const dir=l.source.id===d.id?'→':'←';
+        return '<span style="color:'+lc(l)+'">'+(l.subtype||l.type)+'</span> '+dir+' '+(o.name||o.id);
+      }).join('<br>');
+      tip.classList.add('vis');
+    }).on('mouseleave',()=>tip.classList.remove('vis'))
+    .on('click',(e,d)=>{
+      e.stopPropagation();
+      const conn=new Set([d.id]);
+      sl.forEach(l=>{if(l.source.id===d.id)conn.add(l.target.id);if(l.target.id===d.id)conn.add(l.source.id);});
+      node.select('circle').attr('fill-opacity',n=>conn.has(n.id)?1:0.1).attr('stroke-opacity',n=>conn.has(n.id)?0.8:0.05);
+      node.select('text').attr('fill',n=>conn.has(n.id)?'#fff':'#222');
+      link.attr('stroke-opacity',l=>conn.has(l.source.id)&&conn.has(l.target.id)?0.9:0.04);
+    });
+    svg.on('click',()=>{
+      node.select('circle').attr('fill-opacity',0.85).attr('stroke-opacity',0.3);
+      node.select('text').attr('fill','#aaa');
+      link.attr('stroke-opacity',0.6);
+    });
+    const sim=d3.forceSimulation(nodes)
+      .force('link',d3.forceLink(sl).id(d=>d.id).distance(90).strength(0.5))
+      .force('charge',d3.forceManyBody().strength(-220))
+      .force('center',d3.forceCenter(W/2,H/2))
+      .force('collision',d3.forceCollide().radius(d=>nr(d)+18))
+      .on('tick',()=>{
+        link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+            .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+        node.attr('transform',d=>`translate(${d.x},${d.y})`);
+      });
+  }
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.ctrl-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    build(b.dataset.f==='all'?null:b.dataset.f);
+  }));
+  build(null);
+  </script>
+</body>
+</html>
